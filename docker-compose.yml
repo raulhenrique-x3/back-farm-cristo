@@ -29,6 +29,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: farm_cristo
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/farm_cristo
+      JWT_SECRET: 6HORqc8XHAjKMUOH6U7lmHyjsW6SKmhO
+      MASTER_KEY: cwlYn4fEsLFgcFMEBW0FLGPLzcOwYagG
     volumes:
       - pgdata:/var/lib/postgresql/data
 
