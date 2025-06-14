@@ -1,4 +1,4 @@
-# 📚 **Documentação — API FarmCristo**
+# 📚 **FarmCristo — API Backend**
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-### ✅ **Rodando sem Docker (modo local)**
+### ✅ **Rodando localmente (sem Docker)**
 
 1. Instale as dependências:
 
@@ -14,7 +14,7 @@
 npm install
 ```
 
-2. Certifique-se de que você tenha o PostgreSQL rodando localmente com as seguintes credenciais:
+2. Configure seu banco PostgreSQL local com os seguintes dados:
 
 ```
 Host:     localhost
@@ -30,32 +30,23 @@ Banco:    farm_cristo
 npm run dev
 ```
 
-📍 A aplicação estará disponível em:
-
-```
-http://localhost:8000
-```
+Acesse a aplicação em:
+📍 `http://localhost:8000`
 
 ---
 
 ### 🐳 **Rodando com Docker**
 
-1. Suba os containers com Docker Compose:
+1. Suba os containers:
 
 ```bash
 docker-compose up --build
 ```
 
-2. Acesse a aplicação no navegador:
+2. Acesse a API:
+   📍 `http://localhost:8000`
 
-```
-http://localhost:8000
-```
-
-📌 **Importante:**
-O banco de dados PostgreSQL estará disponível internamente para a aplicação via o host `postgres` (nome do serviço no `docker-compose`) na porta `5432`.
-
-3. **String de conexão recomendada no `.env`:**
+3. String de conexão utilizada no ambiente Docker:
 
 ```env
 DATABASE_URL=postgres://postgres:postgres@postgres:5432/farm_cristo
@@ -63,75 +54,71 @@ DATABASE_URL=postgres://postgres:postgres@postgres:5432/farm_cristo
 
 ---
 
-## 🗄️ **Como conectar no PostgreSQL via DBeaver**
-
----
-
-### ✅ Dados de conexão:
-
-- **Host:** `localhost`
-- **Porta:** `5432`
-- **Database:** `farm_cristo`
-- **Usuário:** `postgres`
-- **Senha:** `postgres`
-
----
-
-### ✅ Passo a passo:
+## 🗄️ **Acessando o Banco de Dados via DBeaver**
 
 1. Abra o DBeaver.
 2. Clique em ➕ **Nova Conexão**.
 3. Escolha **PostgreSQL**.
-4. Preencha os dados:
+4. Preencha os dados de conexão:
 
-   - **Host:** `localhost`
-   - **Port:** `5432`
-   - **Database:** `farm_cristo`
-   - **Usuário:** `postgres`
-   - **Senha:** `postgres`
+```
+Host:     localhost
+Porta:    5432
+Database: farm_cristo
+Usuário:  postgres
+Senha:    postgres
+```
 
-5. Clique em **Testar Conexão**.
-   Se aparecer verde ✅, clique em **Finalizar**.
-6. No painel lateral, navegue até:
+5. Clique em **Testar Conexão** → Se der OK, clique em **Finalizar**.
+6. No painel lateral navegue em:
 
 ```
 farm_cristo ➝ Schemas ➝ public ➝ Tables ➝ users
 ```
 
-7. Clique com o botão direito em `users` ➝ **Visualizar Dados** ➝ **Todas as linhas**.
+7. Clique com o botão direito em **users** → **Visualizar Dados** → **Todas as linhas**.
 
 ---
 
-## 🏗️ **Estrutura de Pastas Atual do Projeto**
+## 🧠 **Acessando a documentação Swagger**
+
+Acesse via navegador:
+📍 `http://localhost:8000/api-docs`
+
+Na interface do Swagger você pode:
+
+- Visualizar a documentação dos endpoints.
+- Realizar testes diretamente pela interface.
+- Validar payloads, respostas e headers.
+
+---
+
+## 🏗️ **Estrutura de Pastas**
 
 ```plaintext
 src/
 │
-├── config/                # Configurações globais
-│   ├── database.ts        # Conexão com o PostgreSQL
-│   └── swagger.ts         # Configuração da documentação Swagger
+├── config/                # Configurações (DB, Swagger)
 │
-├── modules/               # Domínios do sistema
+├── modules/               # Domínios da aplicação
 │   └── auth/              # Módulo de autenticação
-│       ├── controller/    # Controllers (AuthController.ts)
-│       ├── dtos/          # Data Transfer Objects (validação/tipos)
-│       ├── entities/      # Modelos/Entidades (separação futura)
-│       ├── middlewares/   # Middlewares de autenticação e roles
-│       ├── repositories/  # Acesso ao banco (UserRepository.ts)
-│       ├── routes/        # Rotas do módulo
-│       ├── services/      # Lógica de negócio (AuthService.ts)
-│       └── utils/         # Funções auxiliares
+│       ├── controller/    # Controllers
+│       ├── dtos/          # Tipagens
+│       ├── entities/      # Models (separação futura)
+│       ├── middlewares/   # Middlewares
+│       ├── repositories/  # Acesso ao banco
+│       ├── routes/        # Rotas
+│       ├── services/      # Lógica de negócio
+│       └── utils/         # Utilitários
 │
-├── routes/                # Agrupamento de rotas principais
-│   └── index.ts           # Registro global das rotas
-│
+├── routes/                # Agrupamento de rotas globais
 ├── shared/                # Middlewares e helpers globais
 │
-├── app.ts                 # Configuração do app Express
+├── app.ts                 # Configuração da aplicação
 ├── server.ts              # Inicialização do servidor
 │
-├── Dockerfile             # Build da aplicação
-├── docker-compose.yml     # Orquestração dos containers
+├── Dockerfile             # Build do container
+├── docker-compose.yml     # Orquestração dos serviços
 ├── .env                   # Variáveis de ambiente
 │
 └── README.md              # Documentação
@@ -139,33 +126,17 @@ src/
 
 ---
 
-## 🔥 **Alterações realizadas:**
-
-- 🔹 Criação de toda a estrutura modularizada usando **classes** para Controllers, Services e Repositories.
-- 🔹 Implementação do endpoint `/auth/register` com validação de **Master Key**.
-- 🔹 Criação de middlewares de autenticação (`AuthMiddleware`) e validação de role (`RoleMiddleware`).
-- 🔹 Adição da documentação **Swagger** acessível via:
-
-```
-http://localhost:8000/api-docs
-```
-
-- 🔹 Correção da conexão Docker com PostgreSQL utilizando:
+## 🔑 **Variáveis de ambiente obrigatórias (.env)**
 
 ```env
 DATABASE_URL=postgres://postgres:postgres@postgres:5432/farm_cristo
+JWT_SECRET=sua_chave_secreta
+MASTER_KEY=sua_master_key_secreta
 ```
-
-- 🔹 Adição do passo a passo para conectar o banco via DBeaver.
 
 ---
 
-## 🔥 **Próximos passos sugeridos:**
+## 🔥 **URLs importantes**
 
-- 🔑 Implementar `/auth/login` com JWT.
-- 👥 CRUD de usuários (listar, editar, excluir).
-- 👵 CRUD de idosos.
-- 📦 CRUD de produtos.
-- 🔄 Funcionalidade de retirada de produtos por idosos, com baixa automática de estoque.
-- 📊 Dashboard de estoque.
-- 🔒 Refinar autenticação, roles e permissions.
+- API Base: `http://localhost:8000`
+- Swagger (Documentação): `http://localhost:8000/api-docs`
