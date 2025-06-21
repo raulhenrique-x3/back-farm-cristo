@@ -16,6 +16,20 @@ const options: swaggerJsdoc.Options = {
         url: "http://localhost:8000",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT", // opcional, só para exibir no swagger que é um JWT
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ["src/modules/**/*.ts"], // Caminho onde estão suas rotas e JSDoc
 };

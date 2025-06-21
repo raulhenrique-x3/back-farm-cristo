@@ -4,6 +4,8 @@
  *   post:
  *     summary: Cadastro de Usuário (Master ou Farmacêutico)
  *     description: Permite criar usuários do sistema. Criação de Master requer Master Key. Criação de Common requer token de Master logado.
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Autenticação
  *     requestBody:
@@ -63,7 +65,7 @@
  *                 example: usuario@email.com
  *               password:
  *                 type: string
- *                 example: senha123
+ *                 example: password@123
  *     responses:
  *       200:
  *         description: Login bem-sucedido
