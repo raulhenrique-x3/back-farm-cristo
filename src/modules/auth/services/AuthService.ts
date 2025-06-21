@@ -17,8 +17,6 @@ export class AuthService {
     currentUserRole?: string
   ) {
     const { name, email, password, role } = data;
-    console.log("Dados recebidos:", data);
-    console.log("Master Key Header:", masterKeyHeader);
     const existingUser = await this.userRepository.findByEmail(email);
     if (existingUser) {
       throw new Error("Email já está em uso");

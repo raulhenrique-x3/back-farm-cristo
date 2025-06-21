@@ -6,7 +6,7 @@ export class AuthMiddleware {
   static optional(req: IRequestUser, res: Response, next: NextFunction) {
     try {
       const token = req.headers.authorization?.split(" ")[1];
-      const decode = jwt.verify(token!, process.env.JWT_KEY!);
+      const decode = jwt.verify(token!, process.env.JWT_SECRET!);
       req.user = decode;
       next();
     } catch (error) {
