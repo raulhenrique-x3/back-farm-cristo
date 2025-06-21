@@ -47,4 +47,18 @@ export class AuthService {
 
     return user;
   }
+
+  async login(email: string, password: string) {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) {
+      throw new Error("Usuário não encontrado");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      throw new Error("Senha inválida");
+    }
+
+    return { id: user.id, token: "token_placeholder" };
+  }
 }

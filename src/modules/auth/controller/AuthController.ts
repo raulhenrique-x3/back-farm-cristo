@@ -1,6 +1,10 @@
 import { Response } from "express";
 import { AuthService } from "../services/AuthService";
 import { IRequestUser } from "../../../shared/types/IRequestUser";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../../shared/utils/generateTokens";
 
 const authService = new AuthService();
 
@@ -24,6 +28,26 @@ class AuthController {
       });
     } catch (error: any) {
       console.error("Erro ao registrar usuário:", error);
+      res.status(400).json({ message: error.message });
+    }
+  }
+
+  public async login(req: IRequestUser, res: Response) {
+    const { email, password } = req.body;
+
+    try {
+      const { id } = await authService.login(email, password);
+
+      const token = generateAccessToken(id);
+      const refreshToken = generateRefreshToken(id);
+
+      res.status(200).json({
+        id,
+        token,
+        refreshToken,
+      });
+    } catch (error: any) {
+      console.error("Erro ao fazer login:", error);
       res.status(400).json({ message: error.message });
     }
   }
