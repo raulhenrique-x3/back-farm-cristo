@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {AppDataSource} from '../../../database/Data-source';
 import {Produto} from '../entities/Produto';
+import { IProduct } from '../dtos/ProductDto';
 
 class ProdutoController {
     public async create(req: Request, res: Response): Promise<any> {
@@ -11,7 +12,6 @@ class ProdutoController {
             const produto = produtoRepository.create({
                 nome,
                 quantidade,
-                necessidade,
                 categoria
             });
 
@@ -56,7 +56,7 @@ class ProdutoController {
 
     public async update(req: Request, res: Response): Promise<any> {
         const { id } = req.params;
-        const { nome, quantidade, necessidade, categoria } = req.body;
+        const { nome, quantidade, categoria } = req.body;
 
         try {
             const produtoRepository = AppDataSource.getRepository(Produto);
@@ -68,7 +68,6 @@ class ProdutoController {
 
             produto.nome = nome;
             produto.quantidade = quantidade;
-            produto.necessidade = necessidade;
             produto.categoria = categoria;
 
             await produtoRepository.save(produto);
@@ -98,6 +97,35 @@ class ProdutoController {
             console.error("Erro ao deletar produto:", error);
             return res.status(500).json({ message: "Erro ao deletar produto" });
         }
+    }
+
+    public async registerManyProducts(req: Request, res: Response): Promise<any> {
+        const products: IProduct[] = req.body;
+
+        const productsRepository = AppDataSource.getRepository(Produto);
+
+        const saveProducts = await productsRepository.save(products);
+
+        return res.status(201).json(saveProducts);
+
+    }
+
+        public async updateManyProducts(req: Request, res: Response): Promise<any> {
+        const products: IProduct[] = req.body;
+
+        const productsRepository = AppDataSource.getRepository(Produto);
+
+        for (const product of products) {
+            await productsRepository.update(product.id, {
+                nome: product.nome,
+                quantidade: product.quantidade,
+                categoria: product.categoria
+            })
+        }
+
+
+        return res.status(201).json({message: "Produtos atualizados"});
+
     }
 }
 

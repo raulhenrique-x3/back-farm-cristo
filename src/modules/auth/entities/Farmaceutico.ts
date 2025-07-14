@@ -8,13 +8,16 @@ export class Farmaceutico {
     @Column()
     nome: string;
 
-    @Column({ unique: true })
-    cpf: string;
+    @Column()
+    senha: string;
 
     @Column()
     telefone: string;
 
     @Column()
     email: string;
+
+    @Column()
+    role: boolean;
 
 }

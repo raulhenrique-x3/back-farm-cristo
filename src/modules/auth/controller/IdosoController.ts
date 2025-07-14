@@ -101,8 +101,6 @@ class IdosoController {
             return res.status(500).json({ message: "Erro ao deletar idoso" });
         }
     }
-
-
 }
 
     

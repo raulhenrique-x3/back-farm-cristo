@@ -9,4 +9,4 @@ router.get("/:id", IdosoController.getById);
 router.put("/:id", IdosoController.update);
 router.delete("/:id", IdosoController.delete);
 
-export default router;
+export {router as idosoRoutes};
