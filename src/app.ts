@@ -1,6 +1,7 @@
 import express from "express";
 import { router } from "./routes";
 import { setupSwagger } from "./config/swagger";
+import "reflect-metadata";
 
 const app = express();
 
