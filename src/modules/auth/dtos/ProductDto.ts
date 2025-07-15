@@ -1,7 +1,7 @@
 
 export interface IProduct {
     id: number;
-    nome: string;
-    quantidade: number;
-    categoria: "remedio" | "produto";
+    name: string;
+    quantity: number;
+    category: "medicine" | "product";
 }

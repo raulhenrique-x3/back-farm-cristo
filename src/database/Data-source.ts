@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { Farmaceutico } from "../modules/auth/entities/Farmaceutico";
-import { Idoso } from "../modules/auth/entities/Idoso";
-import { Produto } from "../modules/auth/entities/Produto";
+import { Person } from "../modules/auth/entities/Person";
+import { Product } from "../modules/auth/entities/Product";
 import { RegistroEntrega } from "../modules/auth/entities/RegistroEntrega";
 
 export const AppDataSource = new DataSource({
@@ -15,8 +15,8 @@ export const AppDataSource = new DataSource({
   logging: true,
   entities: [
     Farmaceutico,
-    Idoso,
-    Produto,
+    Person,
+    Product,
     RegistroEntrega
   ],
 });

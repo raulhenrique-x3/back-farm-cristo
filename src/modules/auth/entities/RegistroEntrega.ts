@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Idoso } from './Idoso';
-import { Produto } from './Produto';
+import { Person } from './Person';
+import { Product } from './Product';
 import { Farmaceutico } from './Farmaceutico';
 
 @Entity()
@@ -8,11 +8,11 @@ export class RegistroEntrega {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Idoso, { onDelete: 'CASCADE' })
-    idoso: Idoso;
+    @ManyToOne(() => Person, { onDelete: 'CASCADE' })
+    person: Person;
 
-    @ManyToOne(() => Produto, { onDelete: 'CASCADE' })
-    produto: Produto;
+    @ManyToOne(() => Product, { onDelete: 'CASCADE' })
+    product: Product;
 
     @ManyToOne(() => Farmaceutico, { onDelete: 'CASCADE' })
     farmaceutico: Farmaceutico;
