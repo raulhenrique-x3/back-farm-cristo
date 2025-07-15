@@ -2,7 +2,7 @@ import { DataSource } from "typeorm";
 import { Farmaceutico } from "../modules/auth/entities/Farmaceutico";
 import { Person } from "../modules/auth/entities/Person";
 import { Product } from "../modules/auth/entities/Product";
-import { RegistroEntrega } from "../modules/auth/entities/RegistroEntrega";
+import { Withdrawal } from "../modules/auth/entities/Withdrawal";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,6 +17,6 @@ export const AppDataSource = new DataSource({
     Farmaceutico,
     Person,
     Product,
-    RegistroEntrega
+    Withdrawal
   ],
 });
