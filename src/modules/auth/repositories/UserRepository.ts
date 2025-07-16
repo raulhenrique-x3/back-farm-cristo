@@ -1,31 +1,16 @@
-import { pool } from "../../../config/database";
+import { AppDataSource } from "../../../database/Data-source";
+import { Pharmaceutical } from "../entities/Pharmaceutical";
 
 export class UserRepository {
+  private userRepo = AppDataSource.getRepository(Pharmaceutical);
+
   async findByEmail(email: string) {
-    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
-    return result.rows[0];
+    const user = await this.userRepo.findOneBy({ email });
+    return user;
   }
 
-  async create({
-    name,
-    email,
-    password,
-    role,
-  }: {
-    name: string;
-    email: string;
-    password: string;
-    role: "master" | "common";
-  }) {
-    const result = await pool.query(
-      `INSERT INTO users (name, email, password, role)
-       VALUES ($1, $2, $3, $4)
-       RETURNING id, name, email, role, created_at`,
-      [name, email, password, role]
-    );
-
-    return result.rows[0];
+  async create() {
+    const userRepo = AppDataSource.getRepository(Pharmaceutical);
+    return userRepo;
   }
 }

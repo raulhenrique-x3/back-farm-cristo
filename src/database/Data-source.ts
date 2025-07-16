@@ -1,8 +1,8 @@
 import { DataSource } from "typeorm";
-import { Farmaceutico } from "../modules/auth/entities/Farmaceutico";
 import { Person } from "../modules/auth/entities/Person";
 import { Product } from "../modules/auth/entities/Product";
 import { Withdrawal } from "../modules/auth/entities/Withdrawal";
+import { Pharmaceutical } from "../modules/auth/entities/Pharmaceutical";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,10 +13,5 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB || "farm_cristo",
   synchronize: true, // cuidado: true só pra desenvolvimento
   logging: true,
-  entities: [
-    Farmaceutico,
-    Person,
-    Product,
-    Withdrawal
-  ],
+  entities: [Pharmaceutical, Person, Product, Withdrawal],
 });
