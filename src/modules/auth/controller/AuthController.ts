@@ -24,7 +24,7 @@ class AuthController {
 
       res.status(201).json({
         message: "Usuário criado com sucesso",
-        user,
+        userId: user.id,
       });
     } catch (error: any) {
       console.error("Erro ao registrar usuário:", error);
@@ -37,7 +37,7 @@ class AuthController {
 
     try {
       const { id } = await authService.login(email, password);
-
+      console.log("User logged in with ID:", id);
       const token = generateAccessToken(id);
       const refreshToken = generateRefreshToken(id);
 

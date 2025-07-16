@@ -36,18 +36,18 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await this.userRepository.create({
-      name,
+    const user = await this.userRepository.createUser({
       email,
       password: hashedPassword,
-      role,
+      name,
+      role: role === "master" ? true : false,
     });
-
     return user;
   }
 
   async login(email: string, password: string) {
     const user = await this.userRepository.findByEmail(email);
+
     if (!user) {
       throw new Error("Usuário não encontrado");
     }

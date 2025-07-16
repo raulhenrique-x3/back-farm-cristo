@@ -9,8 +9,8 @@ export class UserRepository {
     return user;
   }
 
-  async create() {
-    const userRepo = AppDataSource.getRepository(Pharmaceutical);
-    return userRepo;
+  async createUser(data: Partial<Pharmaceutical>) {
+    const newUser = this.userRepo.create(data);
+    return await this.userRepo.save(newUser);
   }
 }
