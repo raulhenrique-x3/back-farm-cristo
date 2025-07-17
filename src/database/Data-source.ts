@@ -1,7 +1,7 @@
 import { DataSource } from "typeorm";
 import { User } from "../modules/user/entities/User";
 import { Withdrawal } from "../modules/auth/entities/Withdrawal";
-import { Pharmaceutical } from "../modules/auth/entities/Pharmaceutical";
+import { Pharmaceutical } from "../modules/pharmaceutical/entities/Pharmaceutical";
 import { Product } from "../modules/products/entities/Product";
 
 export const AppDataSource = new DataSource({
