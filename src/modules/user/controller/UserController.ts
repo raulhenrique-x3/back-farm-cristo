@@ -62,7 +62,7 @@ class UserController {
 
   public async updateUser(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
-    const { name, birthDate, weight, motherName, cpf, type } = req.body;
+    const { name, birthDate, cpf, type } = req.body;
 
     try {
       const repo = AppDataSource.getRepository(User);
