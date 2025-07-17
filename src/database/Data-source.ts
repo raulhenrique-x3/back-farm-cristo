@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { User } from "../modules/user/entities/User";
-import { Product } from "../modules/auth/entities/Product";
+import { Product } from "../modules/products/entities/Product";
 import { Withdrawal } from "../modules/auth/entities/Withdrawal";
 import { Pharmaceutical } from "../modules/auth/entities/Pharmaceutical";
 

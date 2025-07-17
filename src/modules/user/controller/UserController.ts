@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../../../database/Data-source";
 import { User } from "../entities/User";
-import { Product } from "../../auth/entities/Product";
+import { Product } from "../../products/entities/Product";
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<any> {

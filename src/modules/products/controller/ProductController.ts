@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import { AppDataSource } from "../../../database/Data-source";
-import { Product } from '../entities/Product';
-import { IProduct } from '../dtos/ProductDto';
+import { Product } from "../entities/Product";
+import { IProduct } from "../dto/ProductDto";
 
 class ProductController {
-  
   public async createProduct(req: Request, res: Response): Promise<any> {
     const { name, quantity, category } = req.body;
 
@@ -135,17 +134,14 @@ class ProductController {
         });
       }
 
-      return res.status(200).json({ message: "Produtos atualizados com sucesso." });
+      return res
+        .status(200)
+        .json({ message: "Produtos atualizados com sucesso." });
     } catch (error) {
       console.error("Erro ao atualizar produtos:", error);
       return res.status(500).json({ message: "Erro ao atualizar produtos" });
     }
   }
-
-   
-
-
-
 }
 
 export default new ProductController();

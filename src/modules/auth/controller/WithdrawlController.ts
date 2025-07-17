@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../../../database/Data-source";
 import { Withdrawal } from "../entities/Withdrawal";
 import { User } from "../../user/entities/User";
-import { Product } from "../../auth/entities/Product";
+import { Product } from "../../products/entities/Product";
 
 class WithdrawalController {
   public async createWithdrawal(req: Request, res: Response): Promise<any> {

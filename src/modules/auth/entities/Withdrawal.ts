@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
 } from "typeorm";
 import { User } from "../../user/entities/User";
-import { Product } from "./Product";
+import { Product } from "../../products/entities/Product";
 
 @Entity()
 export class Withdrawal {

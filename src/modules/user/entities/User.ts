@@ -5,7 +5,7 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { Product } from "../../auth/entities/Product";
+import { Product } from "../../products/entities/Product";
 
 @Entity()
 export class User {
