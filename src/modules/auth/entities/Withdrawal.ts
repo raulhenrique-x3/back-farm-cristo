@@ -3,9 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  CreateDateColumn
+  CreateDateColumn,
 } from "typeorm";
-import { Person } from "./Person";
+import { User } from "../../user/entities/User";
 import { Product } from "./Product";
 
 @Entity()
@@ -13,8 +13,8 @@ export class Withdrawal {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Person, { eager: true })
-  person: Person;
+  @ManyToOne(() => User, { eager: true })
+  user: User;
 
   @ManyToOne(() => Product, { eager: true })
   product: Product;

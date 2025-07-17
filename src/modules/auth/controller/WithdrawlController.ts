@@ -1,27 +1,29 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../../../database/Data-source";
 import { Withdrawal } from "../entities/Withdrawal";
-import { Person } from "../../auth/entities/Person";
+import { User } from "../../user/entities/User";
 import { Product } from "../../auth/entities/Product";
 
 class WithdrawalController {
   public async createWithdrawal(req: Request, res: Response): Promise<any> {
-    const { personId, productId, quantity } = req.body;
+    const { userId, productId, quantity } = req.body;
 
     try {
-      const personRepo = AppDataSource.getRepository(Person);
+      const userRepo = AppDataSource.getRepository(User);
       const productRepo = AppDataSource.getRepository(Product);
       const withdrawalRepo = AppDataSource.getRepository(Withdrawal);
 
-      const person = await personRepo.findOneBy({ id: personId });
+      const user = await userRepo.findOneBy({ id: userId });
       const product = await productRepo.findOneBy({ id: productId });
 
-      if (!person || !product) {
-        return res.status(404).json({ message: "Person or product not found" });
+      if (!user || !product) {
+        return res.status(404).json({ message: "User or product not found" });
       }
 
-      if (person.type !== "Elderly") {
-        return res.status(403).json({ message: "Only elderly can withdraw products" });
+      if (user.type !== "elderly") {
+        return res
+          .status(403)
+          .json({ message: "Only elderly users can withdraw products" });
       }
 
       if (product.quantity < quantity) {
@@ -29,9 +31,9 @@ class WithdrawalController {
       }
 
       const withdrawal = withdrawalRepo.create({
-        person,
+        user,
         product,
-        quantity
+        quantity,
       });
 
       await withdrawalRepo.save(withdrawal);
@@ -47,7 +49,10 @@ class WithdrawalController {
     }
   }
 
-  public async getWithdrawalsHistory(req: Request, res: Response): Promise<any> {
+  public async getWithdrawalsHistory(
+    req: Request,
+    res: Response
+  ): Promise<any> {
     try {
       const withdrawalRepo = AppDataSource.getRepository(Withdrawal);
       const withdrawals = await withdrawalRepo.find({

@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   ManyToMany,
 } from "typeorm";
-import { Person } from "./Person";
+import { User } from "../../user/entities/User";
 
 @Entity()
 export class Product {
@@ -24,9 +24,9 @@ export class Product {
   @CreateDateColumn()
   entryDate: Date;
 
-  @ManyToMany(() => Person, (person) => person.receivedProducts)
-  receivedBy: Person[];
+  @ManyToMany(() => User, (user) => user.receivedProducts)
+  receivedBy: User[];
 
-  @ManyToMany(() => Person, (person) => person.donatedProducts)
-  donatedBy: Person[];
+  @ManyToMany(() => User, (user) => user.donatedProducts)
+  donatedBy: User[];
 }

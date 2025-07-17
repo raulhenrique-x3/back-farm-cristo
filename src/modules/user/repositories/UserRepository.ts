@@ -1,5 +1,5 @@
 import { AppDataSource } from "../../../database/Data-source";
-import { Pharmaceutical } from "../entities/Pharmaceutical";
+import { Pharmaceutical } from "../../auth/entities/Pharmaceutical";
 
 export class UserRepository {
   private userRepo = AppDataSource.getRepository(Pharmaceutical);

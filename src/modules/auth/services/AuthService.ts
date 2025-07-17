@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { UserRepository } from "../repositories/UserRepository";
 import { CreateUserDTO } from "../dtos/CreateUserDto";
+import { UserRepository } from "../../user/repositories/UserRepository";
 
 const MASTER_KEY = process.env.MASTER_KEY;
 

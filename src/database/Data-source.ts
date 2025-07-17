@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { Person } from "../modules/auth/entities/Person";
+import { User } from "../modules/user/entities/User";
 import { Product } from "../modules/auth/entities/Product";
 import { Withdrawal } from "../modules/auth/entities/Withdrawal";
 import { Pharmaceutical } from "../modules/auth/entities/Pharmaceutical";
@@ -13,5 +13,5 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB || "farm_cristo",
   synchronize: true, // cuidado: true só pra desenvolvimento
   logging: true,
-  entities: [Pharmaceutical, Person, Product, Withdrawal],
+  entities: [Pharmaceutical, User, Product, Withdrawal],
 });

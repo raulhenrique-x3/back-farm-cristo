@@ -5,10 +5,10 @@ import {
   ManyToMany,
   JoinTable,
 } from "typeorm";
-import { Product } from "./Product";
+import { Product } from "../../auth/entities/Product";
 
 @Entity()
-export class Person {
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,22 +18,16 @@ export class Person {
   @Column()
   birthDate: string;
 
-  @Column("float")
-  weight: number;
-
-  @Column()
-  motherName: string;
-
   @Column({ unique: true })
   cpf: string;
 
   @Column({ type: "varchar" })
-  type: "Elderly" | "Donor";
+  type: "elderly" | "donor";
 
   @ManyToMany(() => Product, (product) => product.receivedBy)
   @JoinTable({
-    name: "person_received_product",
-    joinColumn: { name: "person_id", referencedColumnName: "id" },
+    name: "user_received_product",
+    joinColumn: { name: "user_id", referencedColumnName: "id" },
     inverseJoinColumn: { name: "product_id", referencedColumnName: "id" },
   })
   receivedProducts: Product[];
