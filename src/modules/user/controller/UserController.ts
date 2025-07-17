@@ -5,24 +5,10 @@ import { Product } from "../../auth/entities/Product";
 
 class UserController {
   public async createUser(req: Request, res: Response): Promise<any> {
-    const {
-      name,
-      birthDate,
-      cpf,
-      type,
-      medicines = [],
-      products = [],
-    } = req.body;
+    const { name, birthDate, cpf, type } = req.body;
 
     try {
       const userRepo = AppDataSource.getRepository(User);
-      const productRepo = AppDataSource.getRepository(Product);
-
-      if (type !== "elderly" && type !== "donor") {
-        return res
-          .status(400)
-          .json({ message: "Tipo inválido. Use 'elderly' ou 'donor'" });
-      }
 
       const user = userRepo.create({
         name,
@@ -30,53 +16,6 @@ class UserController {
         cpf,
         type,
       });
-
-      if (type === "elderly" && medicines.length > 0) {
-        const received: Product[] = [];
-
-        for (const item of medicines) {
-          if (!item.name || !item.quantity) {
-            return res.status(400).json({
-              message: "Nome e quantidade são obrigatórios em cada remédio.",
-            });
-          }
-
-          const newMedicine = productRepo.create({
-            name: item.name,
-            quantity: item.quantity,
-            category: "Medicine",
-          });
-
-          await productRepo.save(newMedicine);
-          received.push(newMedicine);
-        }
-
-        user.receivedProducts = received;
-      }
-
-      if (type === "donor" && products.length > 0) {
-        const donated: Product[] = [];
-
-        for (const item of products) {
-          if (!item.name || !item.quantity || !item.category) {
-            return res.status(400).json({
-              message:
-                "Nome, quantidade e categoria são obrigatórios em cada produto doado.",
-            });
-          }
-
-          const newItem = productRepo.create({
-            name: item.name,
-            quantity: item.quantity,
-            category: item.category,
-          });
-
-          await productRepo.save(newItem);
-          donated.push(newItem);
-        }
-
-        user.donatedProducts = donated;
-      }
 
       await userRepo.save(user);
       return res.status(201).json(user);
