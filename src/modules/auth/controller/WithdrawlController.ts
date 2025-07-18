@@ -7,7 +7,6 @@ import { Product } from "../../products/entities/Product";
 class WithdrawalController {
   public async createWithdrawal(req: Request, res: Response): Promise<any> {
     const { userId, productId, quantity } = req.body;
-
     try {
       const userRepo = AppDataSource.getRepository(User);
       const productRepo = AppDataSource.getRepository(Product);

@@ -142,6 +142,32 @@ class ProductController {
       return res.status(500).json({ message: "Erro ao atualizar produtos" });
     }
   }
+
+  public async getProductsByCategory(
+    req: Request,
+    res: Response
+  ): Promise<any> {
+    const { category } = req.params;
+    try {
+      const productRepository = AppDataSource.getRepository(Product);
+      const products = await productRepository.find({
+        where: { category },
+      });
+
+      if (products.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "Nenhum produto encontrado nesta categoria" });
+      }
+
+      return res.status(200).json(products);
+    } catch (error) {
+      console.error("Erro ao buscar produtos por categoria:", error);
+      return res
+        .status(500)
+        .json({ message: "Erro ao buscar produtos por categoria" });
+    }
+  }
 }
 
 export default new ProductController();
