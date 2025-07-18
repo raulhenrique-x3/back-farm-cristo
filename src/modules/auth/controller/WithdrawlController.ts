@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { AppDataSource } from "../../../database/Data-source";
 import { Withdrawal } from "../entities/Withdrawal";
 import { User } from "../../user/entities/User";
@@ -7,6 +7,7 @@ import { Product } from "../../products/entities/Product";
 class WithdrawalController {
   public async createWithdrawal(req: Request, res: Response): Promise<any> {
     const { userId, productId, quantity } = req.body;
+
     try {
       const userRepo = AppDataSource.getRepository(User);
       const productRepo = AppDataSource.getRepository(Product);
@@ -29,6 +30,14 @@ class WithdrawalController {
         return res.status(400).json({ message: "Insufficient product stock" });
       }
 
+      if (quantity <= 0) {
+        return res.status(400).json({ message: "Quantity must be greater than 0" });
+      }
+
+      // Atualiza estoque ANTES de salvar
+      product.quantity -= quantity;
+      await productRepo.save(product);
+
       const withdrawal = withdrawalRepo.create({
         user,
         product,
@@ -36,10 +45,6 @@ class WithdrawalController {
       });
 
       await withdrawalRepo.save(withdrawal);
-
-      // Atualiza estoque do produto
-      product.quantity -= quantity;
-      await productRepo.save(product);
 
       return res.status(201).json(withdrawal);
     } catch (error) {
