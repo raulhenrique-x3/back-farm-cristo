@@ -168,6 +168,35 @@ class ProductController {
         .json({ message: "Erro ao buscar produtos por categoria" });
     }
   }
+
+  public async postQuantityUpdate(
+    req: Request,
+    res: Response
+  ): Promise<any> {
+    const { id } = req.params;
+    const { quantity } = req.body;
+
+    try {
+      const productRepository = AppDataSource.getRepository(Product);
+      const product = await productRepository.findOneBy({ id: Number(id) });
+
+      if (!product) {
+        return res.status(404).json({ message: "Produto não encontrado" });
+      }
+
+      if (quantity < 0) {
+        return res.status(400).json({ message: "Quantidade inválida" });
+      }
+
+      product.quantity += quantity;
+      await productRepository.save(product);
+
+      return res.status(200).json(product);
+    } catch (error) {
+      console.error("Erro ao atualizar quantidade do produto:", error);
+      return res.status(500).json({ message: "Erro ao atualizar quantidade" });
+    }
+  }
 }
 
 export default new ProductController();

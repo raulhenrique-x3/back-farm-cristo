@@ -14,5 +14,6 @@ router.put("/edit/:id", ProductController.updateProduct);
 router.delete("/delete/:id", ProductController.deleteProduct);
 router.post("/register-products", ProductController.registerManyProducts);
 router.put("/edit-products", ProductController.updateManyProducts);
+router.post("/:id/stock/add", ProductController.postQuantityUpdate);
 
 export { router as productRoutes };
