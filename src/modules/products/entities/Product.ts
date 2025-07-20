@@ -29,4 +29,7 @@ export class Product {
 
   @ManyToMany(() => User, (user) => user.donatedProducts)
   donatedBy: User[];
+
+  @Column({ default: true })
+  isActive: boolean;
 }

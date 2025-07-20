@@ -27,7 +27,9 @@ class ProductController {
   public async getAllProducts(req: Request, res: Response): Promise<any> {
     try {
       const productRepository = AppDataSource.getRepository(Product);
-      const products = await productRepository.find();
+      const products = await productRepository.find({
+        where: { isActive: true },
+      });
 
       return res.status(200).json(products);
     } catch (error) {
@@ -90,12 +92,13 @@ class ProductController {
         return res.status(404).json({ message: "Produto não encontrado" });
       }
 
-      await productRepository.remove(product);
+      product.isActive = false;
+      await productRepository.save(product);
 
       return res.status(204).send();
     } catch (error) {
-      console.error("Erro ao deletar produto:", error);
-      return res.status(500).json({ message: "Erro ao deletar produto" });
+      console.error("Erro ao desativar produto:", error);
+      return res.status(500).json({ message: "Erro ao desativar produto" });
     }
   }
 
@@ -151,7 +154,7 @@ class ProductController {
     try {
       const productRepository = AppDataSource.getRepository(Product);
       const products = await productRepository.find({
-        where: { category },
+        where: { category, isActive: true },
       });
 
       if (products.length === 0) {
@@ -169,10 +172,7 @@ class ProductController {
     }
   }
 
-  public async postQuantityUpdate(
-    req: Request,
-    res: Response
-  ): Promise<any> {
+  public async postQuantityUpdate(req: Request, res: Response): Promise<any> {
     const { id } = req.params;
     const { quantity } = req.body;
 
