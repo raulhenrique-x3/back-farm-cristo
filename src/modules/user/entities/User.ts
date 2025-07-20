@@ -39,4 +39,7 @@ export class User {
     inverseJoinColumn: { name: "product_id", referencedColumnName: "id" },
   })
   donatedProducts: Product[];
+
+  @Column({ default: true })
+  isActive: boolean;
 }

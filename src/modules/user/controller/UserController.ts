@@ -30,6 +30,7 @@ class UserController {
       const repo = AppDataSource.getRepository(User);
       const users = await repo.find({
         relations: ["receivedProducts", "donatedProducts"],
+        where: { isActive: true },
       });
 
       return res.status(200).json(users);
@@ -98,7 +99,9 @@ class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      await repo.remove(user);
+      user.isActive = false;
+      await repo.save(user);
+
       return res.status(204).send();
     } catch (error) {
       console.error("Erro ao deletar user:", error);
